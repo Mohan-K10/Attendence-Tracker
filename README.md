@@ -1,5 +1,7 @@
 # Attendance Tracker 🎯
 
+**Live Demo:** [https://attendence-tracker-eta.vercel.app/](https://attendence-tracker-eta.vercel.app/)
+
 A sleek, modern, and gamified React web application designed to help students track their daily college attendance intuitively. 
 
 Unlike traditional attendance portals that start you at 100% and stress you out when you miss a class, this tracker treats your semester like a game—you start at 0% and grind your way to a perfect score by showing up!
