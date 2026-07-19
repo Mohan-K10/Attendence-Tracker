@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import HolidayCalendar from './HolidayCalendar';
+import AttendanceCalendar from './AttendanceCalendar';
 
 export default function RightPanel({ activeDateStr, appState, onSaveAction, onClearDay, calendarMode, onAddHoliday, onRemoveHoliday, onSelectDate, scrollTrigger }) {
     const actionAreaRef = useRef(null);
@@ -19,7 +20,15 @@ export default function RightPanel({ activeDateStr, appState, onSaveAction, onCl
         }
     }, [activeDateStr, calendarMode, scrollTrigger]);
 
-    if (calendarMode) {
+    if (calendarMode === 'attendance') {
+        return (
+            <section className="panel right-panel" ref={actionAreaRef}>
+                <AttendanceCalendar history={appState.history} />
+            </section>
+        );
+    }
+
+    if (calendarMode === 'holiday' || calendarMode === 'select') {
         return (
             <section className="panel right-panel" ref={actionAreaRef}>
                 <HolidayCalendar 

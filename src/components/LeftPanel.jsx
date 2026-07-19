@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function LeftPanel({ appState, stats, onOpenSettings, isHolidayView, onToggleHolidayView }) {
+export default function LeftPanel({ appState, stats, onOpenSettings, isHolidayView, onToggleHolidayView, isAttendanceView, onToggleAttendanceView }) {
   const base = parseFloat(appState.baseScore || 0);
   const value = parseFloat(appState.classValue || 0);
   
@@ -56,6 +56,10 @@ export default function LeftPanel({ appState, stats, onOpenSettings, isHolidayVi
 
       <button className="btn secondary-btn" onClick={onToggleHolidayView} style={{marginTop: '1rem'}}>
           {isHolidayView ? 'Close Holidays' : 'Manage Holidays'}
+      </button>
+
+      <button className="btn secondary-btn" onClick={onToggleAttendanceView} style={{marginTop: '0.5rem'}}>
+          {isAttendanceView ? 'Close Attendance' : 'View Attendance'}
       </button>
     </aside>
   );

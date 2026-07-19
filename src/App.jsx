@@ -148,6 +148,11 @@ export default function App() {
                     setCalendarMode(calendarMode === 'holiday' ? null : 'holiday');
                     setScrollTrigger(prev => prev + 1);
                 }}
+                isAttendanceView={calendarMode === 'attendance'}
+                onToggleAttendanceView={() => {
+                    setCalendarMode(calendarMode === 'attendance' ? null : 'attendance');
+                    setScrollTrigger(prev => prev + 1);
+                }}
             />
             <MiddlePanel 
                 appState={appState} 
