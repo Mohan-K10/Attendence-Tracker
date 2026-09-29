@@ -91,6 +91,25 @@ export default function App() {
         });
     };
 
+    const handleSaveMultiple = (dateStrs, attendCount, absentCount) => {
+        let dayArr = [];
+        for(let i=0; i<attendCount; i++) dayArr.push('attend');
+        for(let i=0; i<absentCount; i++) dayArr.push('absent');
+
+        setAppState(prev => {
+            const newHistory = { ...prev.history };
+            dateStrs.forEach(dateStr => {
+                newHistory[dateStr] = dayArr;
+            });
+            const newState = {
+                ...prev,
+                history: newHistory
+            };
+            localStorage.setItem('attendanceTrackerState', JSON.stringify(newState));
+            return newState;
+        });
+    };
+
     const handleClearDay = (dateStr) => {
         setAppState(prev => {
             const newHistory = { ...prev.history };
@@ -168,6 +187,7 @@ export default function App() {
                 activeDateStr={activeDateStr}
                 appState={appState}
                 onSaveAction={handleSaveAction}
+                onSaveMultiple={handleSaveMultiple}
                 onClearDay={handleClearDay}
                 calendarMode={calendarMode}
                 onAddHoliday={handleAddHoliday}

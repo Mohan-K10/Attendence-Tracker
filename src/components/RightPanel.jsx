@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import HolidayCalendar from './HolidayCalendar';
 import AttendanceCalendar from './AttendanceCalendar';
 
-export default function RightPanel({ activeDateStr, appState, onSaveAction, onClearDay, calendarMode, onAddHoliday, onRemoveHoliday, onSelectDate, scrollTrigger }) {
+export default function RightPanel({ activeDateStr, appState, onSaveAction, onSaveMultiple, onClearDay, calendarMode, onAddHoliday, onRemoveHoliday, onSelectDate, scrollTrigger }) {
     const actionAreaRef = useRef(null);
     const [customTotalClasses, setCustomTotalClasses] = useState(6);
     const [showCustomizer, setShowCustomizer] = useState(false);
@@ -23,7 +23,7 @@ export default function RightPanel({ activeDateStr, appState, onSaveAction, onCl
     if (calendarMode === 'attendance') {
         return (
             <section className="panel right-panel" ref={actionAreaRef}>
-                <AttendanceCalendar history={appState.history} />
+                <AttendanceCalendar history={appState.history} onSaveMultiple={onSaveMultiple} />
             </section>
         );
     }
@@ -37,6 +37,7 @@ export default function RightPanel({ activeDateStr, appState, onSaveAction, onCl
                     onRemoveHoliday={onRemoveHoliday} 
                     mode={calendarMode}
                     onSelectDate={onSelectDate}
+                    onSaveMultiple={onSaveMultiple}
                 />
             </section>
         );

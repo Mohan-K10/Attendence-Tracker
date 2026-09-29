@@ -4,8 +4,9 @@ function formatDateToISO(d) {
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-export default function AttendanceCalendar({ history }) {
+export default function AttendanceCalendar({ history, onSaveMultiple }) {
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [selectedDates, setSelectedDates] = useState([]);
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -30,10 +31,34 @@ export default function AttendanceCalendar({ history }) {
 
     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+    const toggleDateSelection = (dateStr) => {
+        if (!dateStr) return;
+        setSelectedDates(prev => {
+            if (prev.includes(dateStr)) {
+                return prev.filter(d => d !== dateStr);
+            }
+            return [...prev, dateStr];
+        });
+    };
+
+    const handleMarkPresent = () => {
+        if (onSaveMultiple && selectedDates.length > 0) {
+            onSaveMultiple(selectedDates, 6, 0); // Assuming default 6 classes
+            setSelectedDates([]);
+        }
+    };
+
+    const handleMarkAbsent = () => {
+        if (onSaveMultiple && selectedDates.length > 0) {
+            onSaveMultiple(selectedDates, 0, 6); // Assuming default 6 classes
+            setSelectedDates([]);
+        }
+    };
+
     return (
-        <div className="holiday-calendar-container">
+        <div className="holiday-calendar-container" style={{ position: 'relative' }}>
             <h2 className="action-title">Attendance History</h2>
-            <p className="action-subtitle">Green for present, Red for absent</p>
+            <p className="action-subtitle">Click days to select, Green for present, Red for absent</p>
             
             <div className="calendar-card">
                 <div className="calendar-header">
@@ -75,11 +100,25 @@ export default function AttendanceCalendar({ history }) {
                             }
                         }
 
+                        const isSelected = day ? selectedDates.includes(day.dateStr) : false;
+                        
+                        if (isSelected) {
+                            cellClass += " selected";
+                            inlineStyle = { 
+                                ...inlineStyle, 
+                                outline: '3px solid #4285F4', 
+                                outlineOffset: '-3px',
+                                boxShadow: 'inset 0 0 10px rgba(66, 133, 244, 0.5)',
+                                transform: 'scale(0.95)'
+                            };
+                        }
+
                         return (
                             <div 
                                 key={day.dateStr} 
                                 className={cellClass}
-                                style={inlineStyle}
+                                style={{ ...inlineStyle, cursor: 'pointer' }}
+                                onClick={() => toggleDateSelection(day.dateStr)}
                             >
                                 <span className="day-num">{day.dayNum}</span>
                             </div>
@@ -87,6 +126,19 @@ export default function AttendanceCalendar({ history }) {
                     })}
                 </div>
             </div>
+
+            {selectedDates.length > 0 && (
+                <div className="floating-action-card">
+                    <div className="floating-card-content">
+                        <span className="selected-count">{selectedDates.length} day{selectedDates.length > 1 ? 's' : ''} selected</span>
+                        <div className="floating-actions">
+                            <button className="btn present-btn" onClick={handleMarkPresent}>Mark Present</button>
+                            <button className="btn absent-btn" style={{ background: '#f44336', borderColor: '#f44336' }} onClick={handleMarkAbsent}>Mark Absent</button>
+                            <button className="btn secondary-btn" onClick={() => setSelectedDates([])}>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

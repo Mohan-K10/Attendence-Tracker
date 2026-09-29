@@ -356,3 +356,68 @@ option { background-color: var(--bg-color); color: white; }
 .tooltip-close:hover {
     color: var(--accent-red);
 }
+
+/* Floating Action Card for Multi-Select */
+.floating-action-card {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--accent-blue);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(59, 130, 246, 0.2);
+    z-index: 100;
+    width: 90%;
+    max-width: 600px;
+    animation: slideUp 0.3s ease-out forwards;
+}
+
+@keyframes slideUp {
+    from { transform: translate(-50%, 100%); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+.floating-card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.selected-count {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--accent-blue);
+}
+
+.floating-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.floating-actions .btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    width: auto;
+}
+
+@media (max-width: 768px) {
+    .floating-card-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .floating-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    .floating-actions .btn {
+        flex: 1;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+}
